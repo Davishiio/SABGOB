@@ -13,6 +13,8 @@ class Subtarea extends Model
 
     protected $fillable = ['idTarea', 'titulo', 'descripcion', 'estado'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     // Relación: Pertenece a una Tarea
     public function tarea()
     {
