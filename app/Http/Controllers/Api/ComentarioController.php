@@ -10,6 +10,12 @@ use App\Models\Subtarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para gestionar Comentarios.
+ * 
+ * Maneja las operaciones CRUD para comentarios polimórficos.
+ * Los comentarios pueden asociarse a Proyectos, Tareas o Subtareas.
+ */
 class ComentarioController extends Controller
 {
     // LISTAR MIS COMENTARIOS (GET /api/comentarios)
