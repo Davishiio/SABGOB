@@ -26,9 +26,17 @@ class Proyecto extends Model
     }
 
     // Relación: Comentarios (Polimórfica)
+    protected $appends = ['has_comments'];
+
+    // Relación: Comentarios (Polimórfica)
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comentario::class, 'comentable', 'tipoComentario', 'idComentario');
+    }
+
+    public function getHasCommentsAttribute()
+    {
+        return $this->comments()->exists();
     }
     // Relación: Un usuario tiene muchos proyectos
     public function proyectos()
