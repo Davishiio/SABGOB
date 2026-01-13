@@ -27,7 +27,7 @@ cd sabgob
 composer install
 
 # 3. Configurar entorno
-cp .env.example .env
+copy .env.example .env
 php artisan key:generate
 
 # 4. Configurar base de datos en .env
