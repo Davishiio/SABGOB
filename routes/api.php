@@ -41,9 +41,6 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::apiResource('tareas', TareaController::class);
 
     // 3. Subtareas (Nivel Inferior)
-    // Genera: GET, POST, PUT, DELETE para /api/subtareas
-    // 3. Subtareas (Nivel Inferior)
-    // Genera: GET, POST, PUT, DELETE para /api/subtareas
     Route::apiResource('subtareas', SubtareaController::class);
 
     // --- Rutas Anidadas para Filtrado ---
