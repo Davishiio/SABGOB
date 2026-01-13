@@ -33,6 +33,8 @@ class SubtareaController extends Controller
             'idTarea' => 'required|exists:tareas,id',
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         // SEGURIDAD: Verificar que la Tarea pertenece a un Proyecto del Usuario
@@ -47,6 +49,8 @@ class SubtareaController extends Controller
         $subtarea = $tarea->subtareas()->create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_limite' => $request->fecha_limite,
             'estado' => 'pendiente'
         ]);
 
@@ -64,7 +68,9 @@ class SubtareaController extends Controller
         $request->validate([
             'titulo' => 'sometimes|string|max:255',
             'descripcion' => 'nullable|string',
-            'estado' => 'in:pendiente,completado'
+            'estado' => 'in:pendiente,completado',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         $subtarea->update($request->all());
