@@ -18,6 +18,8 @@ return new class extends Migration
 
             $table->string('titulo');
             $table->text('descripcion')->nullable(); // Opcional según tu diagrama
+            $table->date('fecha_inicio')->nullable();
+            $table->date('fecha_limite')->nullable();
             $table->enum('estado', ['pendiente', 'completado'])->default('pendiente');
 
             $table->timestamps();
