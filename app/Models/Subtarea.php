@@ -11,7 +11,12 @@ class Subtarea extends Model
 
     protected $table = 'subtareas'; // Tabla explícita
 
-    protected $fillable = ['idTarea', 'titulo', 'descripcion', 'estado'];
+    protected $fillable = ['idTarea', 'titulo', 'descripcion', 'estado', 'fecha_inicio', 'fecha_limite'];
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_limite' => 'date',
+    ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
