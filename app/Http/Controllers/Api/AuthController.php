@@ -8,6 +8,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
 
+/**
+ * Controlador de Autenticación.
+ * 
+ * Maneja el registro, login y logout de usuarios utilizando Laravel Sanctum.
+ */
 class AuthController extends Controller
 {
     // REGISTRO
