@@ -30,6 +30,17 @@ class TareaController extends Controller
         })->get();
     }
 
+    // LISTAR TAREAS DE UN PROYECTO (GET /api/proyectos/{id}/tareas)
+    public function indexByProject(Proyecto $proyecto)
+    {
+        // Verificar que el proyecto pertenezca al usuario autenticado
+        if ($proyecto->idUsuario !== Auth::id()) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        return $proyecto->tasks;
+    }
+
     // CREAR (POST /api/tareas)
     public function store(Request $request)
     {
