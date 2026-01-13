@@ -23,12 +23,16 @@ class ProyectoController extends Controller
         $request->validate([
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         // Creamos el registro usando los nombres de TU base de datos
         $proyecto = Auth::user()->proyectos()->create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_limite' => $request->fecha_limite,
             'estado' => 'pendiente' // Valor por defecto
         ]);
 
@@ -50,11 +54,27 @@ class ProyectoController extends Controller
         $request->validate([
             'titulo' => 'sometimes|string|max:255',
             'descripcion' => 'nullable|string',
-            'estado' => 'in:pendiente,completado' // Validación del ENUM
+            'estado' => 'in:pendiente,completado',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         // Actualiza todos los campos que vengan en el request
         $proyecto->update($request->all());
+
+        return response()->json($proyecto);
+    }
+
+    // OBTENER DATA COMPLETA (GET /api/proyectos/{id}/completo)
+    public function completo($id)
+    {
+        $proyecto = Auth::user()->proyectos()
+            ->with([
+                'comments',                     // Comentarios del Proyecto
+                'tasks.comments',               // Comentarios de las Tareas
+                'tasks.subtareas.comments'      // Comentarios de las Subtareas
+            ])
+            ->findOrFail($id);
 
         return response()->json($proyecto);
     }
