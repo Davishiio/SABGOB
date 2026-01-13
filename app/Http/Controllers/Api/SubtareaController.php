@@ -8,6 +8,12 @@ use App\Models\Tarea;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para gestionar Subtareas.
+ * 
+ * Maneja las operaciones CRUD para subtareas. Cada subtarea pertenece a una tarea.
+ * Implementa validación de propiedad en cadena (Subtarea→Tarea→Proyecto→Usuario).
+ */
 class SubtareaController extends Controller
 {
     // LISTAR SUBTAREAS DE UNA TAREA (GET /api/tareas/{id}/subtareas)
