@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        \Illuminate\Database\Eloquent\Relations\Relation::enforceMorphMap([
+            'Proyecto' => 'App\Models\Proyecto',
+            'Tarea' => 'App\Models\Tarea',
+            'Subtarea' => 'App\Models\Subtarea',
+            'User' => 'App\Models\User', // Necesario para Sanctum (tokens)
+        ]);
     }
 }
