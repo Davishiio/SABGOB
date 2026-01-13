@@ -10,6 +10,22 @@ use Illuminate\Support\Facades\Auth;
 
 class SubtareaController extends Controller
 {
+    // LISTAR SUBTAREAS DE UNA TAREA (GET /api/tareas/{id}/subtareas)
+    public function indexByTask(Tarea $tarea)
+    {
+        // Verificar que la tarea pertenezca a un proyecto del usuario
+        $esPropia = Tarea::where('id', $tarea->id)
+            ->whereHas('proyecto', function($query) {
+                $query->where('idUsuario', Auth::id());
+            })->exists();
+
+        if (!$esPropia) {
+            return response()->json(['error' => 'No autorizado'], 403);
+        }
+
+        return $tarea->subtareas;
+    }
+
     // CREAR (POST /api/subtareas)
     public function store(Request $request)
     {
