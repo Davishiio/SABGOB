@@ -9,7 +9,12 @@ class Proyecto extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['titulo', 'descripcion', 'estado', 'idUsuario'];
+    protected $fillable = ['titulo', 'descripcion', 'estado', 'idUsuario', 'fecha_inicio', 'fecha_limite'];
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_limite' => 'date',
+    ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
