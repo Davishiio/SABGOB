@@ -11,6 +11,8 @@ class Proyecto extends Model
 
     protected $fillable = ['titulo', 'descripcion', 'estado', 'idUsuario'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     // Relación: Pertenece a un Usuario
     public function user()
     {
@@ -20,7 +22,7 @@ class Proyecto extends Model
     // Relación: Tiene muchas Tareas (Si se borra un proyecto, se borran las tareas gracias al cascade de la BD)
     public function tasks()
     {
-        return $this->hasMany(Task::class);
+        return $this->hasMany(Tarea::class, 'idProyecto');
     }
 
     // Relación: Comentarios (Polimórfica)
