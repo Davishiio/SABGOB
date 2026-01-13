@@ -7,6 +7,12 @@ use App\Models\Proyecto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para gestionar Proyectos.
+ * 
+ * Maneja las operaciones CRUD para proyectos del usuario autenticado.
+ * Cada proyecto pertenece a un único usuario y puede contener múltiples tareas.
+ */
 class ProyectoController extends Controller
 {
     // LISTAR (GET /api/proyectos)
