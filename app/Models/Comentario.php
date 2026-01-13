@@ -9,7 +9,7 @@ class Comentario extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['idUsuario', 'cuerpo', 'idComentario', 'tipoComentario'];
+    protected $fillable = ['idUsuario', 'cuerpo', 'idComentario', 'tipoComentario', 'estado'];
 
     // Relación polimórfica inversa
     public function comentable()
