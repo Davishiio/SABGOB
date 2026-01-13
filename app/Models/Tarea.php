@@ -13,6 +13,8 @@ class Tarea extends Model
 
     protected $fillable = ['idProyecto', 'titulo', 'descripcion', 'estado'];
 
+    protected $hidden = ['created_at', 'updated_at'];
+
     //Relación: Una Tarea pertenece a un Proyecto
     public function proyecto()
     {
