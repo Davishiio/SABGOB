@@ -43,11 +43,4 @@ class Proyecto extends Model
     {
         return $this->comments()->exists();
     }
-    // Relación: Un usuario tiene muchos proyectos
-    public function proyectos()
-    {
-        // 1. Modelo: Proyecto
-        // 2. Llave foránea en la tabla proyectos: 'idUsuario'
-        return $this->hasMany(Proyecto::class, 'idUsuario');
-    }
 }
