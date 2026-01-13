@@ -11,7 +11,12 @@ class Tarea extends Model
 
     protected $table = 'tareas'; // Nombre explícito de la tabla
 
-    protected $fillable = ['idProyecto', 'titulo', 'descripcion', 'estado'];
+    protected $fillable = ['idProyecto', 'titulo', 'descripcion', 'estado', 'fecha_inicio', 'fecha_limite'];
+
+    protected $casts = [
+        'fecha_inicio' => 'date',
+        'fecha_limite' => 'date',
+    ];
 
     protected $hidden = ['created_at', 'updated_at'];
 
