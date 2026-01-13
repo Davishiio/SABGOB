@@ -8,6 +8,12 @@ use App\Models\Proyecto;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
+/**
+ * Controlador para gestionar Tareas.
+ * 
+ * Maneja las operaciones CRUD para tareas. Cada tarea pertenece a un proyecto
+ * y puede contener múltiples subtareas. Incluye validación de propiedad.
+ */
 class TareaController extends Controller
 {
     // LISTAR (GET /api/tareas)
