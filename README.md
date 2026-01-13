@@ -1,59 +1,221 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# PRUEBA TÉCNICA - Sistema de Gestión de Proyectos
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+API REST para organizar el trabajo, gestionar plazos y rastrear el progreso mediante la estructuración de actividades en un modelo jerárquico: **Proyectos → Tareas → Subtareas**.
 
-## About Laravel
+##  Tecnologías
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+- **Backend:** Laravel 11 (PHP 8.2+)
+- **Autenticación:** Laravel Sanctum (Token Bearer)
+- **Base de Datos:** MySQL / PostgreSQL / SQLite
+- **Arquitectura:** RESTful API
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+##  Requisitos Previos
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+- PHP >= 8.2
+- Composer
+- MySQL 8+ / PostgreSQL 14+ / SQLite
+- Git
 
-## Learning Laravel
+## ⚡ Instalación Rápida
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework. You can also check out [Laravel Learn](https://laravel.com/learn), where you will be guided through building a modern Laravel application.
+```bash
+# 1. Clonar el repositorio
+git clone https://github.com/Davishiio/SABGOB
+cd sabgob
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+# 2. Instalar dependencias
+composer install
 
-## Laravel Sponsors
+# 3. Configurar entorno
+cp .env.example .env
+php artisan key:generate
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
+# 4. Configurar base de datos en .env
+# DB_CONNECTION=mysql
+# DB_HOST=127.0.0.1
+# DB_PORT=3306
+# DB_DATABASE=sabgob
+# DB_USERNAME=root
+# DB_PASSWORD=
 
-### Premium Partners
+# 5. Ejecutar migraciones y seeders
+php artisan migrate --seed
 
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
+# 6. Iniciar servidor de desarrollo
+php artisan serve
+```
 
-## Contributing
+El servidor estará disponible en: `http://127.0.0.1:8000`
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+##  Autenticación
 
-## Code of Conduct
+La API utiliza **Laravel Sanctum** con tokens Bearer. Todas las rutas (excepto login/register) requieren autenticación.
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Registro
+```http
+POST /api/register
+Content-Type: application/json
 
-## Security Vulnerabilities
+{
+    "name": "Usuario Ejemplo",
+    "email": "usuario@ejemplo.com",
+    "password": "password123",
+    "password_confirmation": "password123"
+}
+```
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+### Login
+```http
+POST /api/login
+Content-Type: application/json
 
-## License
+{
+    "email": "usuario@ejemplo.com",
+    "password": "password123"
+}
+```
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+**Respuesta:** Retorna un `access_token` que debe incluirse en todas las solicitudes:
+```http
+Authorization: Bearer {token}
+```
+
+##  Endpoints de la API
+
+### Proyectos
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/proyectos` | Listar proyectos del usuario |
+| POST | `/api/proyectos` | Crear proyecto |
+| GET | `/api/proyectos/{id}` | Ver proyecto |
+| PUT | `/api/proyectos/{id}` | Actualizar proyecto |
+| DELETE | `/api/proyectos/{id}` | Eliminar proyecto |
+| GET | `/api/proyectos/{id}/completo` | Proyecto con tareas, subtareas y comentarios |
+
+### Tareas
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/tareas` | Listar todas las tareas |
+| GET | `/api/tareas?idProyecto={id}` | Filtrar tareas por proyecto |
+| POST | `/api/tareas` | Crear tarea |
+| GET | `/api/tareas/{id}` | Ver tarea |
+| PUT | `/api/tareas/{id}` | Actualizar tarea |
+| DELETE | `/api/tareas/{id}` | Eliminar tarea |
+| GET | `/api/proyectos/{id}/tareas` | Tareas de un proyecto |
+
+### Subtareas
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| POST | `/api/subtareas` | Crear subtarea |
+| PUT | `/api/subtareas/{id}` | Actualizar subtarea |
+| DELETE | `/api/subtareas/{id}` | Eliminar subtarea |
+| GET | `/api/tareas/{id}/subtareas` | Subtareas de una tarea |
+
+### Comentarios
+| Método | Endpoint | Descripción |
+|--------|----------|-------------|
+| GET | `/api/comentarios` | Listar mis comentarios |
+| POST | `/api/comentarios` | Crear comentario |
+| GET | `/api/comentarios/{id}` | Ver comentario |
+| PUT | `/api/comentarios/{id}` | Editar comentario |
+| DELETE | `/api/comentarios/{id}` | Eliminar comentario |
+
+## Estructura de Datos
+
+### Proyecto
+```json
+{
+    "id": 1,
+    "titulo": "Proyecto Demo",
+    "descripcion": "Descripción del proyecto",
+    "estado": "pendiente",
+    "fecha_inicio": "2025-01-01",
+    "fecha_limite": "2025-01-31",
+    "has_comments": true
+}
+```
+
+### Tarea
+```json
+{
+    "id": 1,
+    "idProyecto": 1,
+    "titulo": "Tarea Demo",
+    "descripcion": "Descripción de la tarea",
+    "estado": "pendiente",
+    "fecha_inicio": "2025-01-02",
+    "fecha_limite": "2025-01-15",
+    "has_comments": false
+}
+```
+
+### Subtarea
+```json
+{
+    "id": 1,
+    "idTarea": 1,
+    "titulo": "Subtarea Demo",
+    "descripcion": "Descripción de la subtarea",
+    "estado": "completado",
+    "fecha_inicio": "2025-01-03",
+    "fecha_limite": "2025-01-05",
+    "has_comments": false
+}
+```
+
+### Comentario
+```json
+{
+    "id": 1,
+    "idUsuario": 1,
+    "cuerpo": "Contenido del comentario",
+    "estado": "enviado",
+    "tipoComentario": "Proyecto",
+    "idComentario": 1
+}
+```
+
+##  Seguridad
+
+- **Autenticación por Token:** Todas las rutas protegidas requieren token Bearer.
+- **Autorización por Propiedad:** Los usuarios solo pueden acceder a sus propios proyectos, tareas y subtareas.
+- **Validación de Entrada:** Todas las solicitudes son validadas antes de procesarse.
+- **Hash de Contraseñas:** Las contraseñas se almacenan hasheadas con bcrypt.
+
+##  Usuarios de Prueba
+
+Después de ejecutar `php artisan migrate --seed`:
+
+| Email | Contraseña | Rol |
+|-------|------------|-----|
+| usuario@test.com | password | Usuario |
+
+##  Estructura del Proyecto
+
+```
+app/
+├── Http/Controllers/Api/
+│   ├── AuthController.php        # Autenticación
+│   ├── ProyectoController.php    # CRUD Proyectos
+│   ├── TareaController.php       # CRUD Tareas
+│   ├── SubtareaController.php    # CRUD Subtareas
+│   └── ComentarioController.php  # CRUD Comentarios
+├── Models/
+│   ├── User.php
+│   ├── Proyecto.php
+│   ├── Tarea.php
+│   ├── Subtarea.php
+│   └── Comentario.php
+└── Providers/
+    └── AppServiceProvider.php    # Morph Map Configuration
+
+database/
+├── migrations/                   # Esquema de BD
+└── seeders/                      # Datos de prueba
+
+routes/
+└── api.php                       # Definición de rutas API
+```
+
+
+Este proyecto fue desarrollado como parte de un proceso de selección técnica.
