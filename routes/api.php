@@ -50,4 +50,15 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::get('/proyectos/{proyecto}/tareas', [TareaController::class, 'indexByProject']);
     Route::get('/tareas/{tarea}/subtareas', [SubtareaController::class, 'indexByTask']);
 
+    // Ruta para obtener proyecto completo (con tareas, subtareas y comentarios)
+    Route::get('/proyectos/{id}/completo', [ProyectoController::class, 'completo']);
+
+    // --- COMENTARIOS ---
+    Route::get('/comentarios', [App\Http\Controllers\Api\ComentarioController::class, 'index']); // Nueva ruta index
+    Route::post('/comentarios', [App\Http\Controllers\Api\ComentarioController::class, 'store']);
+    Route::get('/comentarios/{id}', [App\Http\Controllers\Api\ComentarioController::class, 'show']);
+    Route::put('/comentarios/{id}', [App\Http\Controllers\Api\ComentarioController::class, 'update']);
+    Route::delete('/comentarios/{id}', [App\Http\Controllers\Api\ComentarioController::class, 'destroy']);
+
+
 });
