@@ -22,8 +22,16 @@ class Subtarea extends Model
     }
 
     // Relación: Comentarios (RF-1)
+    protected $appends = ['has_comments'];
+
+    // Relación: Comentarios (RF-1)
     public function comments()
     {
-        return $this->morphMany(Comment::class, 'commentable');
+        return $this->morphMany(Comentario::class, 'comentable', 'tipoComentario', 'idComentario');
+    }
+
+    public function getHasCommentsAttribute()
+    {
+        return $this->comments()->exists();
     }
 }
