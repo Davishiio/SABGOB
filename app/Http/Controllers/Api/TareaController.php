@@ -48,6 +48,8 @@ class TareaController extends Controller
             'idProyecto' => 'required|exists:proyectos,id',
             'titulo' => 'required|string|max:255',
             'descripcion' => 'nullable|string',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         // SEGURIDAD: Verificar que el proyecto pertenece al usuario autenticado
@@ -62,6 +64,8 @@ class TareaController extends Controller
         $tarea = $proyecto->tasks()->create([
             'titulo' => $request->titulo,
             'descripcion' => $request->descripcion,
+            'fecha_inicio' => $request->fecha_inicio,
+            'fecha_limite' => $request->fecha_limite,
             'estado' => 'pendiente'
         ]);
 
@@ -90,7 +94,9 @@ class TareaController extends Controller
         $request->validate([
             'titulo' => 'sometimes|string|max:255',
             'descripcion' => 'nullable|string',
-            'estado' => 'in:pendiente,completado'
+            'estado' => 'in:pendiente,completado',
+            'fecha_inicio' => 'nullable|date',
+            'fecha_limite' => 'nullable|date|after_or_equal:fecha_inicio',
         ]);
 
         $tarea->update($request->all());
